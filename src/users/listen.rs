@@ -1,3 +1,4 @@
+use crate::services::IServiceManager;
 use anyhow::ensure;
 use kcpserver::prelude::kcp_module::{KcpConfig, KcpNoDelayConfig};
 use kcpserver::prelude::{KCPPeer, KcpListener, KcpReader};
@@ -9,7 +10,7 @@ use std::sync::Arc;
 use std::time::Duration;
 use tokio::io::AsyncReadExt;
 
-use crate::static_def::USER_MANAGER;
+use crate::static_def::{SERVICE_MANAGER, USER_MANAGER};
 use crate::users::{input_buff, Client, IUserManager};
 
 /// 最大数据表长度限制 512K
@@ -60,6 +61,9 @@ impl Listen {
     #[inline]
     async fn data_input(mut reader: KcpReader<'_>, client: Arc<Client>) -> anyhow::Result<()> {
         log::debug!("create peer:{}", client);
+        SERVICE_MANAGER
+            .open_service(client.session_id, 0, &client.address)
+            .await?;
         loop {
             let len = {
                 match reader.read_u32_le().await {
