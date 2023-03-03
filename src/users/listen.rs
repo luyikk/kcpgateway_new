@@ -62,7 +62,7 @@ impl Listen {
     async fn data_input(mut reader: KcpReader<'_>, client: Arc<Client>) -> anyhow::Result<()> {
         log::debug!("create peer:{}", client);
         SERVICE_MANAGER
-            .open_service(client.session_id, 0, &client.address)
+            .open_service(client.get_session_id(), 0, &client.address)
             .await?;
         loop {
             let len = {
