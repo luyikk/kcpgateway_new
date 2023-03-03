@@ -41,3 +41,4 @@ vergen= "7"
 panic="abort"
 lto = true
 codegen-units = 1
+strip=false
