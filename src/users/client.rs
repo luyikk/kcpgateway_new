@@ -52,7 +52,9 @@ impl Client {
         self.is_open_zero.store(false, Ordering::Release);
 
         // 管它有没有 每个服务器都调用下 DropClientPeer 让服务器的 DropClientPeer 自己检查
-         SERVICE_MANAGER.disconnect_events(self.get_session_id()).await;
+        SERVICE_MANAGER
+            .disconnect_events(self.get_session_id())
+            .await;
 
         // 断线
         let _ = self.peer.get_writer().shutdown().await;
