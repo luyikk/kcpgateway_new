@@ -1,3 +1,5 @@
+mod stdout_log;
+
 use anyhow::Result;
 use clap::Parser;
 
