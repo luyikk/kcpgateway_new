@@ -64,6 +64,6 @@ jobs:
           bin: kcpgateway_new
           target: ${{ matrix.target }}
           features: ${{ matrix.features || '' }}
-          archive: $bin-${{ matrix.ver }}-$target-(${{ matrix.os }})
+          archive: $bin-${{ matrix.ver }}-$target-${{ matrix.os }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
