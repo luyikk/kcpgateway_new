@@ -82,7 +82,7 @@ fn install_log() -> Result<()> {
         use flexi_logger::{Age, Cleanup, Criterion, FileSpec, Logger, Naming, WriteMode};
 
         if opt.syslog {
-            let logger = Logger::try_with_str("trace, sqlx = error,mio=error")?
+            let logger = Logger::try_with_str("debug, sqlx = error,mio=error")?
                 .log_to_file_and_writer(
                     FileSpec::default()
                         .directory("logs")
@@ -104,7 +104,7 @@ fn install_log() -> Result<()> {
                 .set(logger)
                 .map_err(|_| anyhow::anyhow!("logger set error"))?;
         } else {
-            let logger = Logger::try_with_str("trace, sqlx = error,mio = error")?
+            let logger = Logger::try_with_str("debug, sqlx = error,mio = error")?
                 .log_to_file(
                     FileSpec::default()
                         .directory("logs")
