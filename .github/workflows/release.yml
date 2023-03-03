@@ -17,6 +17,7 @@ jobs:
         with:
           changelog: "CHANGELOG.md"
           branch: master
+          title: "Kcp Gateway $version"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
