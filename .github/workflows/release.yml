@@ -39,7 +39,7 @@ jobs:
             features: unity
             ver: pb
           - target: x86_64-pc-windows-msvc
-            os: windows-latest
+            os: windows-2019
             features: unity
             ver: pb
             
@@ -53,7 +53,7 @@ jobs:
             os: macos-latest
             ver: pkg
           - target: x86_64-pc-windows-msvc
-            os: windows-latest
+            os: windows-2019
             ver: pkg
             
     runs-on: ${{ matrix.os }}
