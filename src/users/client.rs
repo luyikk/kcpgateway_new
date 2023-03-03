@@ -16,6 +16,7 @@ use crate::static_def::SERVICE_MANAGER;
 /// 客户端client
 pub struct Client {
     pub peer: KCPPeer,
+    pub address: String,
     pub is_open_zero: AtomicBool,
 }
 
@@ -34,8 +35,10 @@ impl Drop for Client {
 impl Client {
     #[inline]
     pub fn new(peer: KCPPeer) -> Self {
+        let address = peer.to_string();
         Self {
             peer,
+            address,
             is_open_zero: Default::default(),
         }
     }
