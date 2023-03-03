@@ -1,19 +1,34 @@
+mod config;
+mod services;
+mod static_def;
 mod stdout_log;
+mod time;
+mod timer;
+mod users;
 
 use anyhow::Result;
 use clap::Parser;
+
+use crate::services::IServiceManager;
+use crate::static_def::{CONFIG, SERVICE_MANAGER, TIMER_MANAGER};
+use crate::users::Listen;
 
 #[global_allocator]
 static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
 #[tokio::main]
-async fn main()->Result<()> {
+async fn main() -> Result<()> {
     install_log()?;
 
-
+    SERVICE_MANAGER.start();
+    TIMER_MANAGER.start();
+    let server = Listen::new(
+        format!("0.0.0.0:{}", CONFIG.listen_port),
+        CONFIG.client_timeout_seconds as u64,
+    )?;
+    server.start().await?;
     Ok(())
 }
-
 
 #[cfg(feature = "unity")]
 static NAME: &str = "kcp gateway service pb";
