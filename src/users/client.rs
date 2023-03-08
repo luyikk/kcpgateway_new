@@ -35,7 +35,7 @@ impl Drop for Client {
 impl Client {
     #[inline]
     pub fn new(peer: KCPPeer) -> Self {
-        let address = peer.to_string();
+        let address = peer.addr.to_string();
         Self {
             peer,
             address,
