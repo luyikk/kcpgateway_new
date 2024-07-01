@@ -116,7 +116,6 @@ impl UserManager {
     }
 }
 
-#[async_trait::async_trait]
 pub trait IUserManager {
     /// 制造一个 client
     async fn make_client(&self, peer: KCPPeer) -> Result<Arc<Client>>;
@@ -137,7 +136,6 @@ pub trait IUserManager {
     ) -> Result<()>;
 }
 
-#[async_trait::async_trait]
 impl IUserManager for Actor<UserManager> {
     #[inline]
     async fn make_client(&self, peer: KCPPeer) -> Result<Arc<Client>> {

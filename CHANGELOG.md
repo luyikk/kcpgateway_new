@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.4
+### Features
+* update kcp server rebuild
+
 ## 0.0.3
 ### Features
 * fix ipaddress error

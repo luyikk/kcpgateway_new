@@ -261,7 +261,6 @@ impl ServiceInner {
     // }
 }
 
-#[async_trait::async_trait]
 pub trait IServiceInner {
     /// 获取服务器id
     fn get_service_id(&self) -> u32;
@@ -269,12 +268,8 @@ pub trait IServiceInner {
     fn get_gateway_id(&self) -> u32;
     /// 设置 ping_delay_tick
     fn set_ping_delay_tick(&self, timestamp: i64);
-    /// 获取 ping_delay_tick
-    fn get_ping_delay_tick(&self) -> i64;
     /// 设置 last_ping_time
     fn set_last_ping_time(&self, timestamp: i64);
-    /// 获取last_ping_time
-    fn get_last_ping_time(&self) -> i64;
     /// 设置socket 链接
     async fn set_client(&self, client: Arc<Actor<TcpClient<TcpStream>>>) -> Result<()>;
     /// OPEN 客户端
@@ -307,7 +302,6 @@ pub trait IServiceInner {
     async fn disconnect(&self) -> Result<()>;
 }
 
-#[async_trait::async_trait]
 impl IServiceInner for Actor<ServiceInner> {
     #[inline]
     fn get_service_id(&self) -> u32 {
@@ -328,10 +322,6 @@ impl IServiceInner for Actor<ServiceInner> {
     }
 
     #[inline]
-    fn get_ping_delay_tick(&self) -> i64 {
-        unsafe { self.deref_inner().ping_delay_tick.load(Ordering::Acquire) }
-    }
-    #[inline]
     fn set_last_ping_time(&self, timestamp: i64) {
         unsafe {
             self.deref_inner()
@@ -339,11 +329,6 @@ impl IServiceInner for Actor<ServiceInner> {
                 .store(timestamp, Ordering::Release);
         }
     }
-    #[inline]
-    fn get_last_ping_time(&self) -> i64 {
-        unsafe { self.deref_inner().last_ping_time.load(Ordering::Acquire) }
-    }
-
     #[inline]
     async fn set_client(&self, client: Arc<Actor<TcpClient<TcpStream>>>) -> Result<()> {
         self.inner_call(|inner| async move {
